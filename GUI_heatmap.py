@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import *
 from tkinter import filedialog
+from tkinter import scrolledtext
 import os
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
@@ -51,7 +52,7 @@ class Application(tk.Frame):
         self.textboxname.set('\n\n出力内容 ')
         self.label3 = ttk.Label(self.frame2, textvariable=self.textboxname)
         self.label3.grid(row=1, column=0)
-        self.textBox = Text(self.frame2, width=80)
+        self.textBox = scrolledtext.ScrolledText(self.frame2, width=80)
         self.textBox.grid(row=2, column=0)
 
         #Frame3の作成
