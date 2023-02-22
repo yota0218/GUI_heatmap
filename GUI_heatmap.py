@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import *
 from tkinter import filedialog
 from tkinter import scrolledtext
+from tkinter import messagebox
 import os
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
@@ -65,20 +66,13 @@ class Application(tk.Frame):
 
     # ファイルの参照処理
     def click_refer_button(self):
-        self.fTyp = [("","*")]
+        self.fTyp = [("",".sdf")]
         self.iDir = os.path.abspath(os.path.dirname(__file__))
         self.filepath = filedialog.askopenfilename(filetypes = self.fTyp, initialdir = self.iDir)
         self.file_path.set(self.filepath)
 
     # 出力処理
     def click_export_button(self):
-        path = self.file_path.get()
-        if path[-4:] == '.txt':
-            f = open(path, encoding="utf-8")
-            text_data = f.read()
-            self.textBox.insert(END, text_data)
-        else:
-            self.textBox.insert(END, '\nファイルがテキストファイルではありません')
         self.path = self.file_path.get()
         self.f = open(self.path, encoding="utf-8")
         self.text_data = self.f.read()
