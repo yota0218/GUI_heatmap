@@ -72,6 +72,13 @@ class Application(tk.Frame):
 
     # 出力処理
     def click_export_button(self):
+        path = self.file_path.get()
+        if path[-4:] == '.txt':
+            f = open(path, encoding="utf-8")
+            text_data = f.read()
+            self.textBox.insert(END, text_data)
+        else:
+            self.textBox.insert(END, '\nファイルがテキストファイルではありません')
         self.path = self.file_path.get()
         self.f = open(self.path, encoding="utf-8")
         self.text_data = self.f.read()
