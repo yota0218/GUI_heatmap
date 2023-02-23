@@ -16,7 +16,7 @@ class Application(tk.Frame):
         super().__init__(master)
         self.pack()
         self.master.geometry("1000x800")
-        self.master.title("Python GUI Tool")
+        self.master.title("heatmap")
         self.create_widgets()
 
     # ウィジェットの作成
@@ -61,7 +61,7 @@ class Application(tk.Frame):
         self.frame3.grid()
 
         #runボタンの作成
-        self.run_button = ttk.Button(self.frame3, text='実行', command=lambda:[self.delete_frames(), self.graph()], width=10)
+        self.run_button = ttk.Button(self.frame3, text='実行', command=self.create_heatmap, width=10)
         self.run_button.grid(row=9, column=0)
 
     # ファイルの参照処理
@@ -78,28 +78,26 @@ class Application(tk.Frame):
         self.text_data = self.f.read()
         self.textBox.insert(END, self.text_data)
 
-    def graph(self):
-        self.frame4 = ttk.Frame(self)
+    def create_heatmap(self):
+        hmWindow = tk.Toplevel(root)
+        hmWindow.title("Result")
+        hmWindow.geometry("900x800")
+
+        self.frame4 = ttk.Frame(hmWindow)
         self.frame4.grid()
         suppl = Chem.SDMolSupplier(self.filepath)
         mols = [mol for mol in suppl if mol is not None]
         fps = [AllChem.GetMorganFingerprint(mol, 2, useFeatures=True) for mol in mols]
         sim_matrix = [DataStructs.BulkTanimotoSimilarity(fp, fps) for fp in fps]
 
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(6,5))
         im = ax.imshow(sim_matrix, cmap='bwr')
         plt.colorbar(im)
-
         #Figureを埋め込み
         canvas = FigureCanvasTkAgg(fig, self.frame4)
         canvas.get_tk_widget().pack()
         #ツールバーを表示
         toolbar=NavigationToolbar2Tk(canvas, self.frame4)
-
-    def delete_frames(self):
-        self.frame1.destroy()
-        self.frame2.destroy()
-        self.frame3.destroy()
 
 if __name__ == "__main__":
     root = tk.Tk()
