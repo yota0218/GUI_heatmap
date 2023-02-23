@@ -56,13 +56,13 @@ class Application(tk.Frame):
         self.textBox = scrolledtext.ScrolledText(self.frame2, width=80)
         self.textBox.grid(row=2, column=0)
 
-        #Frame3の作成
-        self.frame3 = ttk.Frame(self, padding=10)
-        self.frame3.grid()
+        #クリアボタンの作成
+        self.run_button = ttk.Button(text='クリア', command=self.clear_textbox, width=10)
+        self.run_button.place(x=370, y=480)
 
-        #runボタンの作成
-        self.run_button = ttk.Button(self.frame3, text='実行', command=self.create_heatmap, width=10)
-        self.run_button.grid(row=9, column=0)
+        #実行ボタンの作成
+        self.run_button = ttk.Button(text='実行', command=self.create_heatmap, width=10)
+        self.run_button.place(x=520, y=480)
 
     # ファイルの参照処理
     def click_refer_button(self):
@@ -70,6 +70,9 @@ class Application(tk.Frame):
         self.iDir = os.path.abspath(os.path.dirname(__file__))
         self.filepath = filedialog.askopenfilename(filetypes = self.fTyp, initialdir = self.iDir)
         self.file_path.set(self.filepath)
+
+    def clear_textbox(self):
+        self.textBox.delete("1.0","end")
 
     # 出力処理
     def click_export_button(self):
